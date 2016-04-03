@@ -86,4 +86,14 @@ barplot(table(pollution$region), col="wheat", main="titlehere")
         oma # outer margin (for multiple plot per page)
         mfrow # for multiple plot - specify how many rows
         mfcol # for multiple plot - specify how many columns
-      
+      # Base plotting functions:
+        plot # make a scatterplot
+        lines # to add lines to a plot
+        points # to add points
+        text # to add text labels
+        title # add annotations to x,y axis labels
+        mtext
+        axis
+      # example:
+        with(airquality,plot(Wind,Ozone,main="Ozone in NY"))
+        
