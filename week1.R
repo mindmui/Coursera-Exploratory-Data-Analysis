@@ -94,6 +94,86 @@ barplot(table(pollution$region), col="wheat", main="titlehere")
         title # add annotations to x,y axis labels
         mtext
         axis
-      # example:
-        with(airquality,plot(Wind,Ozone,main="Ozone in NY"))
+        # example:
+          with(airquality,plot(Wind,Ozone,main="Ozone in NY"))
+        # adding a regression line
+          model <- lm(Ozone~Wind, airquality)
+          abline(model, lwd=2) #lwd make the line thicker
+        # multiple plots
+          par(mfrow = c(1,2)) # 1 row 2 columns
+          with(airquality, {
+            plot(Wind,Ozone)
+            plot(Solar.R,Ozone)
+          })
+      # Base Plotting Demonstration
+        x <- rnorm(1000)
+        hist(x)
+        text(-3,10, "mind")
+        legend("topleft", legen="try")
+        # check margin:
+          par("mar")
+        # specify margin:
+          par(mar = c(2,2,1,1))
+        # re plot
+          hist(x)
         
+          x <- rnorm(100)  
+          y <- x + rnorm(100)
+          g <- gl(2,50, labels = c("Male","Female"))
+          plot(x,y, type ="n") #blank plot
+          # to add data in
+            points(x[g=="Male"],y[g=="Male"],col="red")
+            points(x[g=="Female"],y[g=="Female"],col="blue",pch=19)
+# Graphics Devices in R
+    # is something where you can make a plot appear
+        # a window on your screen - most common
+        # a PDF file
+        # a PNG or JPEG
+    ?Devices # full list of devices
+    # For quick visualisation and exploratory analysis
+      # usually you want to use the screen device
+    # How does a plot get created?
+      # 1. call a plotting function like plot, xyplot, or qplot
+      # 2. plot appears on the screen device
+      # 3. annotate the plot if necessary
+    # Another approach to plotting
+      # this is commonly used FOR FILE DEVICES:
+      # 1. Explicitly launch a graphics device
+      # 2. Call a plotting function to make plot
+        # but the plot will not appear! since your device is not the cscreen
+      # 3. Annotate plot if necessary
+      # 4. Close the graphic device using:
+        dev.off() #*** very IMPORTANT
+      # example:
+        pdf(file = "myplot.pdf") # open PDF file
+        with(faithful, plot(eruptions, waiting)) # to plot
+        title(main = "old faithful data") # annotate plot
+        dev.off() # don't forget to close the device
+# Graphics File Devices:
+  # 1. Vector formats: pdf, svg, postscript
+    # useful for line-type but not where you have a lot of points
+  # 2. Bitmap formats: png, jpeg, tiff, bmp
+    # represent as series of pixels
+    # good for plotting many many points
+    # in general, it doesn't resize well! -- get distorted
+  # Multiple open graphics devices:
+    # we can open as many as graphics devices: 
+      # e.g. by calling:
+          quartz() # we open a new screen device
+    # HOWEVER, we can only plot ONE by ONE
+    # the current active device can be found by calling:
+      dev.cur()
+    # to set active device:
+      dev.set(n) # n = to some integer
+  # Copying plots 
+    # copy the plot from screen device --> file device
+      dev.copy()
+      dev.copy2pdf()
+    # note: copying a plot is not an exact operation
+    # example:
+      library(datasets)
+      with(faithful, plot(eruptions,waiting)) # to plot
+      title(main = "this is the title") # to annotate
+      dev.copy(png, file="geyserplot.png") # copy to png device
+      dev.off() # close the png device
+      
