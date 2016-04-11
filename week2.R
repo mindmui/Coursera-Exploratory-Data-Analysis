@@ -113,3 +113,24 @@
     # change the overall theme:
       g + theme_bw(base_family = "Times") + geom_smooth(size=4,linetype=3,method="lm",se=FALSE) + geom_point(aes(color=drv),size=4,alpha=1/2) + labs(title="Hello") + labs(x="xaxis", y= "yaxis")
       
+  # Axis Limits in ggplot:
+    g + geom_line() + ylim(-3,3) # any value above this it's will drop the outlier!
+    # instead we should:
+    g + geom_line() + coord_cartesian(ylim = c(-3,3))
+  # How to categorize continuous variable -- to create factor variable
+    # we use a cut() function
+    cutpoints <- quantile(mpg$hwy, seq(0,1,length=4),na.rm=TRUE)
+    mpg$displ <- cut(mpg$hwy, cutpoints)
+    levels(mpg$displ) # see the levels of newly created factor variable
+  
+  # Final ggplot summary
+    g <- ggplot(data = mpg, aes(displ,hwy))
+    # add layers:
+    g + geom_point(alpha=1/3) # set transparency of points
+      + facet_wrap(bmicat~drv, nrow=2, ncol=4)
+      + geom_smooth(method = "lm", se=FALSE, col="steelblue")
+      + theme_bw(base_family = "Avenir", base_size = 10)
+      + labs(x = "xaxis")
+      + labs(y = "yaxis")
+      + labs(title = "title here")
+    
